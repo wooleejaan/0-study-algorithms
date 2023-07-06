@@ -1,23 +1,51 @@
 function solution(land, P, Q) {
-  const blocks = land.flat().sort((a, b) => a - b);
-  const total = blocks.reduce((a, b) => a + b);
-
-  let floor = -1;
-  let prev = 0;
+  // variables and functions
+  const N = land.length;
+  const arr = [];
   let answer = Infinity;
 
-  for (let i = 0; i < blocks.length; i++) {
-    if (floor !== blocks[i]) {
-      floor = blocks[i];
+  const getCost = (height, arr) => {
+    let cost = 0;
 
-      const willBeAddedCount = blocks[i] * i - prev;
-      const willBeDeletedCount = total - prev - (blocks.length - i) * blocks[i];
-      const result = willBeAddedCount * P + willBeDeletedCount * Q;
-
-      if (answer > result) answer = result;
+    for (let i = 0; i < arr.length; i++) {
+      if (height < arr[i]) {
+        cost += (arr[i] - height) * Q;
+      } else if (height > arr[i]) {
+        cost += (height - arr[i]) * P;
+      }
     }
 
-    prev += blocks[i];
+    return cost;
+  };
+
+  const binarySearch = (arr) => {
+    const height = [...new Set(arr)];
+    let front = 0;
+    let back = height[height.length - 1];
+
+    while (front <= back) {
+      const mid = Math.floor((front + back) / 2);
+      const cost1 = getCost(mid, arr);
+      const cost2 = getCost(mid + 1, arr);
+
+      if (cost1 <= cost2) {
+        back = mid - 1;
+      } else {
+        front = mid + 1;
+      }
+
+      answer = Math.min(answer, cost1, cost2);
+    }
+  };
+
+  // start
+  for (let i = 0; i < N; i++) {
+    arr.push(...land[i]);
   }
+
+  arr.sort((a, b) => a - b);
+
+  binarySearch(arr);
+
   return answer;
 }

@@ -1,10 +1,10 @@
 # [level 4] 지형 편집 - 12984 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12984) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12984?language=javascript) 
 
 ### 성능 요약
 
-메모리: 43.5 MB, 시간: 48.10 ms
+메모리: 50.1 MB, 시간: 73.39 ms
 
 ### 구분
 
